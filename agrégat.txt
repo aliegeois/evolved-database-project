@@ -1,0 +1,41 @@
+user:
+id: int
+created_at: date
+name: string
+inviter_id: id
+level_string: string
+post_upload_count: int (nombre de posts) (à générer)
+
+tag:
+id: int
+name: string
+post_count: int (nombre de posts avec ce tag) (à générer)
+category: int
+created_at: date
+
+post:
+id: int
+created_at: date
+rating: char (s|q|e)
+image_width: int
+image_height: int
+file_ext: string
+parent_id: int
+has_children: bool
+approver_id: int
+file_size: int
+up_score: int
+down_score: int
+favs: int* (id des utilisateurs qui ont fav l'image)
+
+{
+	image: {
+		width: xx,
+		height: yy,
+		ext: jj
+	},
+	score: {
+		up: xx,
+		down: yy
+	}
+}
