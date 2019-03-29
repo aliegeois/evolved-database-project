@@ -9,7 +9,7 @@ async function main() {
 		if(err)
 			throw err;
 		
-		const db = client.db('bdd_project');
+		const db = client.db('bdd_project_light');
 
 		let collections = await db.collections();
 
