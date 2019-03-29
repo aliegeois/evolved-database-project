@@ -96,10 +96,7 @@ let //posts = new Set(),
 	tags = new Set(),
 	users = new Set();
 
-MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, async (err, client) => {
-	if(err)
-		throw err;
-	
+MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }).then(async client => {
 	const db = client.db('project-database');
 
 	db.collections().then(collections => {
