@@ -9,7 +9,7 @@ async function main() {
 		if(err)
 			throw err;
 		
-		const db = client.db('danbooru');
+		const db = client.db('bdd_project');
 
 		let collections = await db.collections();
 
