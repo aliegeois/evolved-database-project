@@ -4,12 +4,14 @@ const fs = require('fs'),
 	MongoClient = mongodb.MongoClient;
 
 async function main() {
+	let begin = new Date();
+
 	let files = fs.readdirSync('metadata');
 
 	let client = await MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true });
-	const db = client.db('danbooru');
+	let db = client.db(process.env.DATABASE_NAME);
 
-	const collections = await db.collections();
+	let collections = await db.collections();
 
 	let /** @type {mongodb.Collection} */ c_users,
 		/** @type {mongodb.Collection} */ c_tags,
@@ -32,6 +34,17 @@ async function main() {
 				await c_users.insertMany(Object.values(p_users)).catch(console.log);
 			if(Object.keys(p_tags).length > 0)
 				await c_tags.insertMany(Object.values(p_tags)).catch(console.log);
+			
+			await c_users.createIndex({ post_upload_count: 1 });
+			await c_tags.createIndex({ name: 1 });
+			await c_tags.createIndex({ post_count: 1 });
+			await c_posts.createIndex({ uploader_id: 1 });
+			await c_posts.createIndex({ created_at: 1 });
+			await c_posts.createIndex({ rating: 1 });
+			await c_posts.createIndex({ file_size: 1 });
+			
+			console.log(`${new Date() - begin} ms`); // 1er test, 174158 posts, 35,920 secondes
+
 			client.close();
 		}
 	};
@@ -74,7 +87,7 @@ async function main() {
 					p_users[l_post.uploader_id].post_upload_count++;
 				} else {
 					p_users[l_post.uploader_id] = {
-						id: l_post.uploader_id,
+						id: parseInt(l_post.uploader_id),
 						post_upload_count: 1
 					};
 				}
@@ -95,28 +108,28 @@ async function main() {
 						p_tags[l_tag.id].post_count++;
 					} else {
 						p_tags[l_tag.id] = {
-							id: l_tag.id,
+							id: parseInt(l_tag.id),
 							name: l_tag.name,
-							category: l_tag.category,
+							category: parseInt(l_tag.category),
 							post_count: 1
 						};
 					}
 				}
 
 				posts.push({
-					id: l_post.id,
-					uploader_id: l_post.uploader_id,
-					created_at: l_post.created_at,
-					tags: l_post.tags.map(t => t.id),
+					id: parseInt(l_post.id),
+					uploader_id: parseInt(l_post.uploader_id),
+					created_at: new Date(l_post.created_at),
+					tags: l_post.tags.map(t => parseInt(t.id)),
 					rating: l_post.rating,
-					image_width: l_post.image_width,
-					image_height: l_post.image_height,
+					image_width: parseInt(l_post.image_width),
+					image_height: parseInt(l_post.image_height),
 					file_ext: l_post.file_ext,
-					approver_id: l_post.approver_id,
-					file_size: l_post.file_size,
-					up_score: l_post.up_score,
-					down_score: l_post.down_score,
-					parent: l_post.parent
+					// approver_id: l_post.approver_id,
+					file_size: parseInt(l_post.file_size),
+					up_score: parseInt(l_post.up_score),
+					down_score: parseInt(l_post.down_score),
+					parent: l_post.parent ? parseInt(l_post.parent) : null
 				});
 			}
 
