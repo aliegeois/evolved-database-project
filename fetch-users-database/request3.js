@@ -11,14 +11,12 @@ function request2() {
     
         const db = client.db('bdd_project_light');
 
-        let users = await db.collection('posts').find().sort("post_count", -1).limit(10);
+        let users = await db.collection('tags').find().sort("post_count", -1).limit(10);
         
-        /*users.forEach(elem => {
+        users.forEach(elem => {
             console.log(elem);
-        });*/
+        });
        
-        let names = await db.collection('users').find({id: "1"});
-        names.forEach(console.log);
 
     });
 
