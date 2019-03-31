@@ -2,9 +2,10 @@
 	"name": "fetch-danbooru-data",
 	"version": "0.0.1",
 	"scripts": {
-		"start": "node main.js"
+		"insertion": "node -r dotenv/config insertion2.js"
 	},
 	"dependencies": {
+		"dotenv": "^7.0.0",
 		"eslint": "^5.15.2",
 		"mongodb": "^3.2.2",
 		"request": "^2.88.0",

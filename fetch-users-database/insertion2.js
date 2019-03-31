@@ -9,9 +9,9 @@ async function main() {
 	let files = fs.readdirSync('metadata');
 
 	let client = await MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true });
-	const db = client.db('danbooru');
+	let db = client.db(process.env.DATABASE_NAME);
 
-	const collections = await db.collections();
+	let collections = await db.collections();
 
 	let /** @type {mongodb.Collection} */ c_users,
 		/** @type {mongodb.Collection} */ c_tags,
@@ -43,8 +43,9 @@ async function main() {
 			await c_posts.createIndex({ rating: 1 });
 			await c_posts.createIndex({ file_size: 1 });
 			
-			await client.close();
 			console.log(`${new Date() - begin} ms`); // 1er test, 174158 posts, 35,920 secondes
+
+			client.close();
 		}
 	};
 	
