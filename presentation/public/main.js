@@ -139,13 +139,15 @@ onload = () => {
 					type: 'line',
 					data: {
 						labels: Object.keys(data),
-						datasets: Object.entries(dataset).map(([ tag, arr], index) => ({
+						datasets: Object.entries(dataset).map(([ tag, arr ], index) => ({
 							label: tag,
 							data: arr.map(line => line.count),
 							backgroundColor: 'rgba(0, 0, 0, 0)',
 							borderColor: colors[index]
-						})),
-						borderWidth: 1
+						}))
+					},
+					options: {
+						lineTension: 0
 					}
 				});
 				results.innerHTML = '';
