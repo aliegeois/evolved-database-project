@@ -29,5 +29,8 @@
 		"no-unused-vars": [
 			"off"
 		]
+	},
+	"globals": {
+		"Chart": false
 	}
 }

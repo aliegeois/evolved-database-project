@@ -12,7 +12,7 @@ app.get(/^\/request\/[0-9]+$/, async (req, res) => {
 	res.setHeader('Content-Type', 'application/json');
 	let id = req.url.split('/')[2];
 	try {
-		let mongoRequest = require(`./requests/${id}`);
+		let mongoRequest = require(`./request/${id}`);
 		let result = await mongoRequest(db);
 		console.log(result);
 		res.end(JSON.stringify(result));

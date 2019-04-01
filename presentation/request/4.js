@@ -1,4 +1,4 @@
-module.exports = async (db) => {
+module.exports = async db => {
 	let agg = await db.collection('posts').aggregate([{
 		$group: { // Groupe par année
 			_id: {
@@ -16,5 +16,5 @@ module.exports = async (db) => {
 		}
 	}]);
 
-	return agg.toArray();
+	return await agg.toArray();
 };
