@@ -9,7 +9,7 @@ async function main() {
 	let files = fs.readdirSync('metadata');
 
 	let client = await MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true });
-	let db = client.db(process.env.DATABASE_NAME);
+	let db = client.db('danbooru');
 
 	let collections = await db.collections();
 
