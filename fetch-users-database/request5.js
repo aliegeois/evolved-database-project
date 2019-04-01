@@ -28,11 +28,11 @@ async function request5() {
 			count: -1
 		}
 	}, {
-		$limit: 10
+		$limit: 5
 	}]);
 
 	let arr = await agg.toArray();
-	let top10 = arr.map(e => e._id.tag);
+	let top = arr.map(e => e._id.tag);
 
 	let agg2 = await db.collection('posts').aggregate([{
 		$project: { // On coupe verticalement
@@ -44,7 +44,9 @@ async function request5() {
 		$unwind: '$tags' // on ouvre le tableau des tags
 	}, {
 		$match: {
-			tags: top10[0]
+			tags: {
+				$in: top
+			}
 		}
 	}, {
 		$group: { // groupe par tag et année
@@ -54,7 +56,7 @@ async function request5() {
 					$year: '$created_at'
 				}
 			},
-			count: { // compte l'apaprition de chaque tag
+			count: { // compte l'apparition de chaque tag
 				$sum: 1
 			}
 		}

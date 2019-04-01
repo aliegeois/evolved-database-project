@@ -1,0 +1,16 @@
+{
+	"name": "presentation-bdd",
+	"version": "0.0.1",
+	"scripts": {
+		"start": "node -r dotenv/config server.js"
+	},
+	"dependencies": {
+		"dotenv": "^7.0.0",
+		"eslint": "^5.15.2",
+		"express": "^4.16.4",
+		"mongodb": "^3.2.2",
+		"request": "^2.88.0",
+		"request-promise-native": "^1.0.7"
+	},
+	"private": true
+}
