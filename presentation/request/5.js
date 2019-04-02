@@ -58,6 +58,13 @@ module.exports = async db => {
 			'_id.year': 1,
 			count: -1
 		}
+	}, {
+		$lookup: {
+			from: 'tags',
+			localField: '_id.tag',
+			foreignField: 'id',
+			as: 'name'
+		}
 	}/*, {
 		$limit: 10 // Si on a trop de tags, à activer
 	}*/]);

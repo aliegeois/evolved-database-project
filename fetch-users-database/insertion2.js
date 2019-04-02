@@ -35,7 +35,9 @@ async function main() {
 			if(Object.keys(p_tags).length > 0)
 				await c_tags.insertMany(Object.values(p_tags)).catch(console.log);
 			
+			await c_users.createIndex({ id: 1 });
 			await c_users.createIndex({ post_upload_count: 1 });
+			await c_tags.createIndex({ id: 1 });
 			await c_tags.createIndex({ name: 1 });
 			await c_tags.createIndex({ post_count: 1 });
 			await c_posts.createIndex({ uploader_id: 1 });

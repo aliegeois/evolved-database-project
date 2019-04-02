@@ -90,9 +90,8 @@ onload = () => {
 						datasets: [{
 							label: 'nombre de posts',
 							data: res.map(e => e.count),
-							backgroundColor: 'rgba(255, 99, 132)'
-						}],
-						borderWidth: 1
+							borderColor: 'rgba(255, 99, 132)'
+						}]
 					}
 				});
 				results.innerHTML = '';
@@ -112,42 +111,89 @@ onload = () => {
 					if(!data[line._id.year]) {
 						data[line._id.year] = [{
 							tag: line._id.tag,
-							count: line.count
+							count: line.count,
+							name: line.name[0].name
 						}];
 					} else {
 						data[line._id.year].push({
 							tag: line._id.tag,
-							count: line.count
+							count: line.count,
+							name: line.name[0].name
 						});
 					}
 					if(!dataset[line._id.tag]) {
 						dataset[line._id.tag] = [{
 							year: line._id.year,
-							count: line.count
+							count: line.count,
+							name: line.name[0].name
 						}];
 					} else {
 						dataset[line._id.tag].push({
 							year: line._id.year,
-							count: line.count
+							count: line.count,
+							name: line.name[0].name
 						});
 					}
 				}
 
-				let colors = ['rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(255, 206, 86)', 'rgba(75, 192, 192)', 'rgba(153, 102, 255)'];
+				let colors = ['rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(255, 206, 86)', 'rgba(75, 192, 192)', 'rgba(153, 102, 255)', 'rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(255, 206, 86)', 'rgba(75, 192, 192)', 'rgba(153, 102, 255)'];
 
-				new Chart(ctx, {
+				let myChart = new Chart(ctx, {
 					type: 'line',
 					data: {
 						labels: Object.keys(data),
 						datasets: Object.entries(dataset).map(([ tag, arr ], index) => ({
-							label: tag,
+							label: arr[index].name,
 							data: arr.map(line => line.count),
 							backgroundColor: 'rgba(0, 0, 0, 0)',
 							borderColor: colors[index]
 						}))
-					},
-					options: {
-						lineTension: 0
+					}
+				});
+				results.innerHTML = '';
+				results.appendChild(canvas);
+			});
+	});
+
+	document.getElementById('rq6').addEventListener('click', () => {
+		fetch('request/6')
+			.then(res => res.json())
+			.then(res => {
+				console.log(res);
+				let canvas = document.createElement('canvas');
+				let ctx = canvas.getContext('2d');
+				new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: res.map(e => e.name[0].name),
+						datasets: [{
+							label: 'nombre de posts',
+							data: res.map(e => e.count),
+							borderColor: 'rgba(255, 99, 132)'
+						}]
+					}
+				});
+				results.innerHTML = '';
+				results.appendChild(canvas);
+			});
+	});
+
+	document.getElementById('rq7').addEventListener('click', () => {
+		fetch('request/7')
+			.then(res => res.json())
+			.then(res => {
+				console.log(res);
+				let canvas = document.createElement('canvas');
+				let ctx = canvas.getContext('2d');
+				new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: res.map(e => e._id.uploader_id),
+						datasets: [{
+							label: 'volume de posts',
+							data: res.map(e => e.count),
+							borderColor: 'rgba(255, 99, 132)'
+						}]
 					}
 				});
 				results.innerHTML = '';

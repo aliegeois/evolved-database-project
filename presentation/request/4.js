@@ -16,5 +16,8 @@ module.exports = async db => {
 		}
 	}]);
 
-	return await agg.toArray();
+	let arr = await agg.toArray();
+	console.log(arr);
+
+	return arr;
 };

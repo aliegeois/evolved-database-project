@@ -17,7 +17,7 @@ app.get(/^\/request\/[0-9]+$/, async (req, res) => {
 		console.log(result);
 		res.end(JSON.stringify(result));
 	} catch(err) {
-		res.end(JSON.stringify({ error: 'bad request id' }));
+		res.end(JSON.stringify({ error: err }));
 	}
 });
 
