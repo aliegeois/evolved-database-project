@@ -1,4 +1,4 @@
-SELECT T.name
-FROM Tag as T
+SELECT name
+FROM Tags
 ORDER BY post_count
 LIMIT 10
