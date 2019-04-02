@@ -1,18 +1,21 @@
 onload = () => {
-	const results = document.getElementById('results');
+	const result = document.getElementById('result');
 	const description = document.getElementById('description');
 
 	document.getElementById('rq1').addEventListener('click', () => {
-		description.innerHTML = 'Proportion de tags safes sur la totalité';
+		description.innerHTML = 'Proportion des tags safe/questionable/explicit :';
 		fetch('request/1')
 			.then(res => res.json())
 			.then(res => {
-				results.innerHTML = res.safeRate;
+				result.innerHTML = `<div>Safe: ${res.safeRate.toPrecision(4)*100}%</div>`
+					+ `<div>Questionable: ${res.questionableRate.toPrecision(4)*100}%</div>`
+					+ `<div>Explicit: ${res.explicitRate.toPrecision(4)*100}%</div>`;
 			});
 	});
 
 	document.getElementById('rq2').addEventListener('click', () => {
 		description.innerHTML = 'Les dix utilisateurs postant le plus';
+		result.innerHTML = '';
 		fetch('request/2')
 			.then(res => res.json())
 			.then(res => {
@@ -43,13 +46,14 @@ onload = () => {
 					tbody.appendChild(tr);
 				}
 				table.appendChild(tbody);
-				results.innerHTML = '';
-				results.appendChild(table);
+				
+				result.appendChild(table);
 			});
 	});
 
-	document.getElementById('rq3').addEventListener('click', () => {
+	document.getElementById('rq4').addEventListener('click', () => {
 		description.innerHTML = 'Les dix tags sur lesquels les dix utilisateurs postent le plus';
+		result.innerHTML = '';
 		fetch('request/3')
 			.then(res => res.json())
 			.then(res => {
@@ -76,16 +80,18 @@ onload = () => {
 					tbody.appendChild(tr);
 				}
 				table.appendChild(tbody);
-				results.innerHTML = '';
-				results.appendChild(table);
+				
+				result.appendChild(table);
 			});
 	});
 
-	document.getElementById('rq4').addEventListener('click', () => {
+	document.getElementById('rq6').addEventListener('click', () => {
 		description.innerHTML = 'Le nombre de posts pour chaque année';
+		result.innerHTML = '';
 		fetch('request/4')
 			.then(res => res.json())
 			.then(res => {
+				res.pop();
 				let canvas = document.createElement('canvas');
 				let ctx = canvas.getContext('2d');
 				new Chart(ctx, {
@@ -99,13 +105,14 @@ onload = () => {
 						}]
 					}
 				});
-				results.innerHTML = '';
-				results.appendChild(canvas);
+				
+				result.appendChild(canvas);
 			});
 	});
 
-	document.getElementById('rq5').addEventListener('click', () => {
+	document.getElementById('rq7').addEventListener('click', () => {
 		description.innerHTML = 'L\'évolution de la popularité des dix tags les plus populaires';
+		result.innerHTML = '';
 		fetch('request/5')
 			.then(res => res.json())
 			.then(res => {
@@ -114,6 +121,8 @@ onload = () => {
 				let data = {},
 					dataset = {};
 				for(let line of res) {
+					if(line._id.year >= 2018)
+						continue;
 					if(!data[line._id.year]) {
 						data[line._id.year] = [{
 							tag: line._id.tag,
@@ -144,7 +153,7 @@ onload = () => {
 
 				let colors = ['rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(255, 206, 86)', 'rgba(75, 192, 192)', 'rgba(153, 102, 255)', 'rgba(255, 99, 132)', 'rgba(54, 162, 235)', 'rgba(255, 206, 86)', 'rgba(75, 192, 192)', 'rgba(153, 102, 255)'];
 
-				let myChart = new Chart(ctx, {
+				new Chart(ctx, {
 					type: 'line',
 					data: {
 						labels: Object.keys(data),
@@ -156,16 +165,16 @@ onload = () => {
 						}))
 					}
 				});
-				results.innerHTML = '';
-				results.appendChild(canvas);
+				
+				result.appendChild(canvas);
 			});
 	});
 
-	document.getElementById('rq6').addEventListener('click', () => {
+	document.getElementById('rq5').addEventListener('click', () => {
+		result.innerHTML = '';
 		fetch('request/6')
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
 				let canvas = document.createElement('canvas');
 				let ctx = canvas.getContext('2d');
 				new Chart(ctx, {
@@ -179,16 +188,16 @@ onload = () => {
 						}]
 					}
 				});
-				results.innerHTML = '';
-				results.appendChild(canvas);
+				
+				result.appendChild(canvas);
 			});
 	});
 
-	document.getElementById('rq7').addEventListener('click', () => {
+	document.getElementById('rq3').addEventListener('click', () => {
+		result.innerHTML = '';
 		fetch('request/7')
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
 				let canvas = document.createElement('canvas');
 				let ctx = canvas.getContext('2d');
 				new Chart(ctx, {
@@ -202,8 +211,8 @@ onload = () => {
 						}]
 					}
 				});
-				results.innerHTML = '';
-				results.appendChild(canvas);
+				
+				result.appendChild(canvas);
 			});
 	});
 };

@@ -76,6 +76,8 @@ async function main() {
 				posts = [];
 
 			for(let l_post of lines) {
+				if(l_post.created_at >= 1514764800) // 01-01-2018
+					continue;
 				// if(m_users[l_post.uploader_id] !== undefined) {
 				// 	m_users[l_post.uploader_id].post_upload_count++;
 				// } else {
