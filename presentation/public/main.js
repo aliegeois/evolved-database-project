@@ -1,7 +1,9 @@
 onload = () => {
 	const results = document.getElementById('results');
+	const description = document.getElementById('description');
 
 	document.getElementById('rq1').addEventListener('click', () => {
+		description.innerHTML = 'Proportion de tags safes sur la totalité';
 		fetch('request/1')
 			.then(res => res.json())
 			.then(res => {
@@ -10,6 +12,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq2').addEventListener('click', () => {
+		description.innerHTML = 'Les dix utilisateurs postant le plus';
 		fetch('request/2')
 			.then(res => res.json())
 			.then(res => {
@@ -46,6 +49,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq3').addEventListener('click', () => {
+		description.innerHTML = 'Les dix tags sur lesquels les dix utilisateurs postent le plus';
 		fetch('request/3')
 			.then(res => res.json())
 			.then(res => {
@@ -78,6 +82,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq4').addEventListener('click', () => {
+		description.innerHTML = 'Le nombre de posts pour chaque année';
 		fetch('request/4')
 			.then(res => res.json())
 			.then(res => {
@@ -101,6 +106,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq5').addEventListener('click', () => {
+		description.innerHTML = 'L\'évolution de la popularité des dix tags les plus populaires';
 		fetch('request/5')
 			.then(res => res.json())
 			.then(res => {
