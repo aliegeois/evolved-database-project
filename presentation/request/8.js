@@ -4,6 +4,9 @@ module.exports = async db => {
 			_id: {
 				year: {
 					$year: '$created_at'
+				},
+				month: {
+					$month: '$created_at'
 				}
 			},
 			count: {
@@ -12,7 +15,8 @@ module.exports = async db => {
 		}
 	}, {
 		$sort: {
-			'_id.year': 1
+			'_id.year': 1,
+			'_id.month': 1
 		}
 	}]);
 

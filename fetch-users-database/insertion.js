@@ -51,7 +51,7 @@ async function main() {
 		}
 	};
 	
-	for(let file of files) { // TODO: pour des petits tests pas la peine d'inclure tous les fichiers
+	for(let file of files) {
 		let tmp = '';
 		let reader = fs.createReadStream(`metadata/${file}`);
 
@@ -71,21 +71,11 @@ async function main() {
 			}
 			tmp = str;
 
-			let // m_users = {},
-				// m_tags = {},
-				posts = [];
+			let posts = [];
 
 			for(let l_post of lines) {
-				if(l_post.created_at >= 1514764800) // 01-01-2018
+				if(new Date(l_post.created_at) >= 1514764800000) // 01-01-2018
 					continue;
-				// if(m_users[l_post.uploader_id] !== undefined) {
-				// 	m_users[l_post.uploader_id].post_upload_count++;
-				// } else {
-				// 	m_users[l_post.uploader_id] = {
-				// 		id: l_post.uploader_id,
-				// 		post_upload_count: 1
-				// 	};
-				// }
 
 				if(p_users[l_post.uploader_id] !== undefined) {
 					p_users[l_post.uploader_id].post_upload_count++;
@@ -97,16 +87,6 @@ async function main() {
 				}
 
 				for(let l_tag of l_post.tags) {
-					// if(m_tags[l_tag.id] !== undefined) {
-					// 	m_tags[l_tag.id].post_count++;
-					// } else {
-					// 	m_tags[l_tag.id] = {
-					// 		id: l_tag.id,
-					// 		name: l_tag.name,
-					// 		category: l_tag.category,
-					// 		post_count: 1
-					// 	};
-					// }
 
 					if(p_tags[l_tag.id] !== undefined) {
 						p_tags[l_tag.id].post_count++;
@@ -129,7 +109,6 @@ async function main() {
 					image_width: parseInt(l_post.image_width),
 					image_height: parseInt(l_post.image_height),
 					file_ext: l_post.file_ext,
-					// approver_id: l_post.approver_id,
 					file_size: parseInt(l_post.file_size),
 					up_score: parseInt(l_post.up_score),
 					down_score: parseInt(l_post.down_score),
@@ -137,7 +116,8 @@ async function main() {
 				});
 			}
 
-			c_posts.insertMany(posts).catch(console.log);
+			if(posts.length)
+				c_posts.insertMany(posts).catch(console.log);
 		});
 
 		reader.on('end', end);

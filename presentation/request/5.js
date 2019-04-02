@@ -65,9 +65,7 @@ module.exports = async db => {
 			foreignField: 'id',
 			as: 'name'
 		}
-	}/*, {
-		$limit: 10 // Si on a trop de tags, à activer
-	}*/]);
+	}]);
 
 	return await agg2.toArray();
 };

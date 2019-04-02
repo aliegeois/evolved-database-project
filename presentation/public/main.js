@@ -4,12 +4,75 @@ onload = () => {
 
 	document.getElementById('rq1').addEventListener('click', () => {
 		description.innerHTML = 'Proportion des tags safe/questionable/explicit :';
+		result.innerHTML = '';
 		fetch('request/1')
 			.then(res => res.json())
 			.then(res => {
-				result.innerHTML = `<div>Safe: ${res.safeRate.toPrecision(4)*100}%</div>`
-					+ `<div>Questionable: ${res.questionableRate.toPrecision(4)*100}%</div>`
-					+ `<div>Explicit: ${res.explicitRate.toPrecision(4)*100}%</div>`;
+				/*let table = document.createElement('table'),
+					thead = document.createElement('thead'),
+					tr = document.createElement('tr'),
+					name = document.createElement('th'),
+					count = document.createElement('th');
+				name.innerHTML = 'Type';
+				count.innerHTML = 'Posts';
+				tr.appendChild(name);
+				tr.appendChild(count);
+				thead.appendChild(tr);
+				table.appendChild(thead);
+				let tbody = document.createElement('tbody');
+				// safe
+				let trs = document.createElement('tr'),
+					tdst = document.createElement('td'),
+					tdsp = document.createElement('td');
+				tdst.innerHTML = 'safe';
+				tdsp.innerHTML = `${res.safe.toPrecision(4)*100}%`;
+				trs.appendChild(tdst);
+				trs.appendChild(tdsp);
+				tbody.appendChild(trs);
+				// questionable
+				let trq = document.createElement('tr'),
+					tdqt = document.createElement('td'),
+					tdqp = document.createElement('td');
+				tdqt.innerHTML = 'questionable';
+				tdqp.innerHTML = `${res.questionable.toPrecision(4)*100}%`;
+				trq.appendChild(tdqt);
+				trq.appendChild(tdqp);
+				tbody.appendChild(trq);
+				// explicit
+				let tre = document.createElement('tr'),
+					tdet = document.createElement('td'),
+					tdep = document.createElement('td');
+				tdet.innerHTML = 'explicit';
+				tdep.innerHTML = `${res.explicit.toPrecision(4)*100}%`;
+				tre.appendChild(tdet);
+				tre.appendChild(tdep);
+				tbody.appendChild(tre);
+
+				table.appendChild(tbody);
+				
+				result.appendChild(table);*/
+
+
+				// Chart.defaults.scale.ticks.beginAtZero = true;
+				let canvas = document.createElement('canvas');
+				result.appendChild(canvas);
+				new Chart(canvas, {
+					type: 'doughnut',
+					data: {
+						labels: ['safe', 'questionable', 'explicit'],
+						datasets: [{
+							data: [res.safe, res.questionable, res.explicit],
+							backgroundColor: ['rgba(255, 255, 59, .4)', 'rgba(255, 152, 0, .4)', 'rgba(244, 67, 54, .4)'],
+							borderColor: ['rgb(255, 255, 59)', 'rgb(255, 152, 0)', 'rgb(244, 67, 54)']
+						}]
+					},
+					options: {
+						animation: {
+							duration: 3000
+						}
+					}
+				});
+
 			});
 	});
 
@@ -91,7 +154,7 @@ onload = () => {
 		fetch('request/4')
 			.then(res => res.json())
 			.then(res => {
-				res.pop();
+				// res.pop();
 				let canvas = document.createElement('canvas');
 				let ctx = canvas.getContext('2d');
 				new Chart(ctx, {
@@ -101,7 +164,8 @@ onload = () => {
 						datasets: [{
 							label: 'nombre de posts',
 							data: res.map(e => e.count),
-							borderColor: 'rgba(255, 99, 132)'
+							borderColor: 'rgba(255, 99, 132)',
+							lineTension: .2
 						}]
 					}
 				});
@@ -116,13 +180,14 @@ onload = () => {
 		fetch('request/5')
 			.then(res => res.json())
 			.then(res => {
+				console.log(res);
 				let canvas = document.createElement('canvas');
 				let ctx = canvas.getContext('2d');
 				let data = {},
 					dataset = {};
 				for(let line of res) {
-					if(line._id.year >= 2018)
-						continue;
+					// if(line._id.year >= 2018)
+					// 	continue;
 					if(!data[line._id.year]) {
 						data[line._id.year] = [{
 							tag: line._id.tag,
@@ -203,11 +268,37 @@ onload = () => {
 				new Chart(ctx, {
 					type: 'bar',
 					data: {
-						labels: res.map(e => e._id.uploader_id),
+						labels: ['v571866', 'CodeKyuubi', 'Schrobby', 'nanami', 'Kikimaru', 'Mr_GT', 'Rignak', 'gary25566', 'NCAA_Gundam', 'Anonymous9000'],
 						datasets: [{
 							label: 'volume de posts',
 							data: res.map(e => e.count),
 							borderColor: 'rgba(255, 99, 132)'
+						}]
+					}
+				});
+				
+				result.appendChild(canvas);
+			});
+	});
+
+	document.getElementById('rq8').addEventListener('click', () => {
+		description.innerHTML = 'Nombre de posts par mois';
+		result.innerHTML = '';
+		fetch('request/8')
+			.then(res => res.json())
+			.then(res => {
+				// res.pop();
+				let canvas = document.createElement('canvas');
+				let ctx = canvas.getContext('2d');
+				new Chart(ctx, {
+					type: 'line',
+					data: {
+						labels: res.map(e => e._id.month),
+						datasets: [{
+							label: 'nombre de posts',
+							data: res.map(e => e.count),
+							borderColor: 'rgba(255, 99, 132)',
+							lineTension: .2
 						}]
 					}
 				});

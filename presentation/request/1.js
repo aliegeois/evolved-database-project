@@ -5,9 +5,8 @@ module.exports = async db => {
 	let nbTotal = await db.collection('posts').countDocuments();
 
 	return {
-		safeRate: nbSafe / nbTotal,
-		questionableRate: nbQuestionable / nbTotal,
-		explicitRate: nbExplicit / nbTotal
+		safe: nbSafe / nbTotal,
+		questionable: nbQuestionable / nbTotal,
+		explicit: nbExplicit / nbTotal
 	};
-
 };

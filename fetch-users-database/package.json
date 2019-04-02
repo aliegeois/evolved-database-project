@@ -2,7 +2,7 @@
 	"name": "fetch-danbooru-data",
 	"version": "0.0.1",
 	"scripts": {
-		"insertion": "node -r dotenv/config insertion2.js"
+		"insertion": "node -r dotenv/config insertion.js"
 	},
 	"dependencies": {
 		"dotenv": "^7.0.0",
