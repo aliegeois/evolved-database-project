@@ -236,6 +236,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq5').addEventListener('click', () => {
+		description.innerHTML = 'Les dix tags sur lesquels l\'utilisateur postant le plus poste le plus';
 		result.innerHTML = '';
 		fetch('request/6')
 			.then(res => res.json())
@@ -259,6 +260,7 @@ onload = () => {
 	});
 
 	document.getElementById('rq3').addEventListener('click', () => {
+		description.innerHTML = 'Les dix utilisateurs ayat posté le plus gros volume de données';
 		result.innerHTML = '';
 		fetch('request/7')
 			.then(res => res.json())
