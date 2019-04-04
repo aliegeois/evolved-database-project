@@ -10,3 +10,8 @@ fetch-users-database
    ├─ ...
    └─ ...
 ```
+
+Insertions dans le dossier `fetch-users-database`
+Serveur Node dans `presentation`
+
+Installer les modules node au préalable avec `npm i`
